@@ -16,4 +16,9 @@ add_custom_command(
     ${CMAKE_COMMAND} -E tar xfz ${SQLITE3_ARCH_NAME})
 
 add_library(sqlite3 sqlite-amalgamation-3210000/sqlite3.c)
-target_link_libraries(sqlite3 dl pthread)
+
+if(WIN32)
+	target_link_libraries(sqlite3 Threads::Threads)
+else()
+	target_link_libraries(sqlite3 dl Threads::Threads)
+endif()
